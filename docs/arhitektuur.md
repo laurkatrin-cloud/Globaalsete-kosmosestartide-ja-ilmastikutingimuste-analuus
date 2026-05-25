@@ -99,7 +99,7 @@ Andmed ühendatakse stardiplatvormi koordinaatide alusel ning arvutatakse ilmast
 
 ## Näidikulaud
 Dashboard kuvab:
-- startide arvu ettevõtte kohta
+- startide arv ettevõtte kohta /HELENI KOMMENTAAR - kas visualiseerime TOP5 ettevõtet? Või lisame filtri et kasutaja saab ise valida kas TOP5 või BOTTOM5 või ettevõtte otsing nime järgi?/
 - aktiivseimad stardiplatvormid
 - ilmastikuriskid
 
