@@ -44,7 +44,7 @@ D --> E[Power BI / Superset]
 
 | Allikas | Tüüp | Ajas muutuv? | Roll |
 |---|---|---|---|
-| The Space Devs Launch Library API | API | Jah, regulaarselt | Põhiandmed kosmosestartide kohta |
+| The Space Devs Launch Library API | API | Jah, regulaarselt | Põhiandmed kosmosestartide kohta | /HELENI KOMMENTAAR - kui sageli on "regulaarselt"?/
 | Open-Meteo API | API | Jah, tunnipõhiselt | Ilmaandmed stardiplatvormidele |
 
 ---
