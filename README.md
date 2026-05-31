@@ -13,6 +13,7 @@ Projekt aitab analüüsida planeeritud kosmosestarte ning hinnata ilmastikutingi
 3. Ilmastikurisk stardiplatvormi asukohas. HELENI kommentaar: kolm komponenti - tuul, sademed, nähtavus - kui nendest miski läheb üle lubatud piiri siis on stardi edasilükkamise risk. visuaalil peaks olema ilmselt igal komponendil oma seier
 
 HELENI kommentaar: dashboardi hea näide https://www.slideteam.net/cyber-risk-impact-and-likelihood-analysis-dashboard.html
+NASA tingimused ilmadele et saaks startida https://www3.nasa.gov/centers/kennedy/pdf/167476main_Weather-07R.pdf
 
 ## Arhitektuur
 
