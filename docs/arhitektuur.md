@@ -24,23 +24,7 @@ Loendatakse millistes asukohtades toimub enim starte.
 
 ---
 
-# Arhitektuur
-
-```mermaid
-flowchart LR
-
-A[Launch Library API] --> B[Python ETL]
-
-C[Open Meteo API] --> B
-
-B --> D[(PostgreSQL)]
-
-D --> E[Power BI / Superset]
-```
-
----
-
-# Andmestik
+# Andmeallikad
 
 | Allikas | Tüüp | Ajas muutuv? | Roll |
 |---|---|---|---|
@@ -50,15 +34,36 @@ D --> E[Power BI / Superset]
 /HELENI KOMMENTAAR - kui sageli on "regulaarselt"?/
 ---
 
-# Stack
+# Andmevoog
 
-| Komponent | Tööriist |
+```mermaid
+flowchart LR
+    A[Launch Library API] --> B[Python sissevõtt]
+    C[Open-Meteo API] --> B
+    B --> D[(staging / raw)]
+    D --> E[Transformatsioon]
+    E --> F[(mart / analytics)]
+    F --> G[Power BI või muu näidikulaud]
+```
+
+---
+
+# Andmebaasi kihid
+
+| Kiht | Roll |
 |---|---|
-| Sissevõtt | Python |
-| Transformatsioon | SQL |
-| Andmehoidla | PostgreSQL |
-| Näidikulaud | Power BI |
-| Orkestreerimine | Planeeritud järgmistes sprintides |
+| staging / raw | Hoiab allikast saadud andmeid muutmata kujul |
+| mart / analytics | Hoiab analüütikaks ettevalmistatud ja transformeeritud andmeid |
+
+```
+
+# Riskid
+
+| Risk | Mõju | Maandus |
+|---|---|---|
+| Launch Library API ei vasta või muudab andmestruktuuri | Andmete sissevõtt võib katkeda ning mõõdikud ei uuene | Lisame veakäsitluse ning kontrollime API vastuse struktuuri enne töötlemist |
+| Stardiplatvormi koordinaadid puuduvad | Ilmaandmeid ei saa kõigi startide jaoks pärida | Märgime puudulike andmetega kirjed eraldi või jätame need analüüsist välja |
+| Ilmaprognoos muutub kiiresti | Ilmastikurisk võib erineda tegelikust olukorrast stardi hetkel | Kasutame viimast saadaolevat prognoosi ja salvestame päringu aja |
 
 ---
 
@@ -93,7 +98,10 @@ Kui hiljem lisatakse API võtmeid:
 Python skript pärib kosmosestartide andmed Launch Library API-st ning ilmaandmed Open-Meteo API-st.
 
 ## Laadimine
-Andmed laaditakse PostgreSQL staging kihti.
+
+Sprint 2 jooksul salvestatakse andmed esmalt JSON kujul kausta `data/raw`.
+
+Hilisemates sprintides laaditakse andmed PostgreSQL staging kihti.
 
 ## Transformatsioon
 Andmed ühendatakse stardiplatvormi koordinaatide alusel ning arvutatakse ilmastikuriskid.
