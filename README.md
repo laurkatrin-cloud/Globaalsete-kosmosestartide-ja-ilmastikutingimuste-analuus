@@ -8,9 +8,11 @@ Projekt aitab analüüsida planeeritud kosmosestarte ning hinnata ilmastikutingi
 
 **Mõõdikud**
 
-1. Planeeritud startide arv ettevõtte kohta järgmise 30 päeva jooksul.
-2. Kõige aktiivsemad stardiplatvormid planeeritud startide arvu järgi.
-3. Ilmastikurisk stardiplatvormi asukohas.
+1. Planeeritud startide arv ettevõtte kohta järgmise 30 päeva jooksul. HELENI kommentaar: visuaal 1 - horisontaalne tulpdiagramm kus on TOP 5 ettevõtte nimed ja planeeritavate startide arv
+2. Kõige aktiivsemad stardiplatvormid planeeritud startide arvu järgi. HELENI kommentaar: visuaal 2 - horisontaalne tulpdiagramm kus on TOP 5 asukoha nimed ja planeeritavate startide arv (tulba võime värvida vastavalt TOP5 ettevõtete värvidele, tekib stacked bar chart)
+3. Ilmastikurisk stardiplatvormi asukohas. HELENI kommentaar: visuaal 3 - heatmap VÕI "seier" VÕI tulpdiagramm
+
+HELENI kommentaar: dashboardi hea näide https://www.slideteam.net/cyber-risk-impact-and-likelihood-analysis-dashboard.html
 
 ## Arhitektuur
 
@@ -40,7 +42,7 @@ Täpsem kirjeldus: `docs/arhitektuur.md`
 | Sissevõtt        | Python                                          |
 | Transformatsioon | Python                                          |
 | Andmehoidla      | JSON / CSV (Sprint 2), PostgreSQL (planeeritud) |
-| Näidikulaud      | PNG graafik, Power BI (planeeritud)             |
+| Näidikulaud      | Power BI või Apache Superset                    |
 | Orkestreerimine  | Käsitsi käivitatavad skriptid                   |
 
 ## Käivitamine
@@ -131,7 +133,7 @@ Projekt kontrollib:
 
 * Lisada ilmaandmed.
 * Salvestada andmed PostgreSQL-i.
-* Luua Power BI visualiseerimised.
+* Luua Power BI või Apache Supersetiga dashboard.
 * Lisada automaatne andmete uuendamine.
 
 ## Meeskond
