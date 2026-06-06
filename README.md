@@ -103,7 +103,9 @@ cat scripts/02_quality_tests.sql | docker compose exec -T db psql -U praktikum -
 docker compose exec db psql -U praktikum -d kosmos -c "\dt mart.*"
 
 # 11. Loo visualiseerimine
-python scripts/create_chart.py on näidisvisualiseering ning lõplik dashboard tehakse Apache Supersetis.
+python scripts/create_chart.py
+
+Fail `output/top_companies.png` on näidisvisualiseering ning lõplik dashboard tehakse Apache Supersetis.
 ```
 
 ## Saladused ja konfiguratsioon
