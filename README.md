@@ -94,6 +94,7 @@ python scripts/load_weather.py
 cat scripts/01_transform.sql | docker compose exec -T db psql -U praktikum -d kosmos
 cat scripts/03_location_transform.sql | docker compose exec -T db psql -U praktikum -d kosmos
 cat scripts/04_weather_risk.sql | docker compose exec -T db psql -U praktikum -d kosmos
+cat scripts/05_location_company_transform.sql | docker compose exec -T db psql -U praktikum -d kosmos
 
 # 9. Käivita andmekvaliteedi testid
 cat scripts/02_quality_tests.sql | docker compose exec -T db psql -U praktikum -d kosmos
