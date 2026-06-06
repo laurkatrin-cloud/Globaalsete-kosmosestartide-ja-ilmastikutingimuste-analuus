@@ -49,7 +49,6 @@ Täpsem kirjeldus: `docs/arhitektuur.md`
 
 ## Andmevoog lühidalt
 
-## Andmevoog lühidalt
 
 1. Launch Library API-st laaditakse järgmise 30 päeva planeeritud kosmosestardid.
 
