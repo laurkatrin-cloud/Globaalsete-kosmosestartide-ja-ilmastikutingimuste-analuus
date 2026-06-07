@@ -8,12 +8,12 @@ Projekt aitab analüüsida planeeritud kosmosestarte ning hinnata ilmastikutingi
 
 **Mõõdikud**
 
-1. Planeeritud startide arv ettevõtte kohta järgmise 30 päeva jooksul. HELENI kommentaar: visuaal 1 - horisontaalne tulpdiagramm kus on TOP 5 ettevõtte nimed ja planeeritavate startide arv
-2. Kõige aktiivsemad stardiplatvormid planeeritud startide arvu järgi. HELENI kommentaar: visuaal 2 - horisontaalne tulpdiagramm kus on TOP 5 asukoha nimed ja planeeritavate startide arv (tulba võime värvida vastavalt TOP5 ettevõtete värvidele, tekib stacked bar chart)
-3. Riskiskoor arvutatakse tuulekiiruse, sademete ja nähtavuse põhjal.
-
-HELENI kommentaar: dashboardi hea näide https://www.slideteam.net/cyber-risk-impact-and-likelihood-analysis-dashboard.html
-NASA tingimused ilmadele et saaks startida https://www3.nasa.gov/centers/kennedy/pdf/167476main_Weather-07R.pdf
+1. Planeeritud startide arv ettevõtte kohta järgmise 30 päeva jooksul.
+2. Planeeritud startide arv stardiplatvormi kohta.
+3. Tuulekiirus kõige aktiivsemas stardiplatvormis.
+4. Sademete hulk kõige aktiivsemas stardiplatvormis.
+5. Nähtavus kõige aktiivsemas stardiplatvormis.
+6. Ilmastikuriski skoor, mis arvutatakse tuulekiiruse, sademete ja nähtavuse põhjal.
 
 ## Arhitektuur
 
@@ -49,21 +49,21 @@ Täpsem kirjeldus: `docs/arhitektuur.md`
 
 ## Andmevoog lühidalt
 
-
 1. Launch Library API-st laaditakse järgmise 30 päeva planeeritud kosmosestardid.
 
 2. Andmed salvestatakse PostgreSQL staging kihti (`staging.launches_raw`).
 
 3. Open-Meteo API-st laaditakse stardiplatvormide ilmaandmed ning salvestatakse tabelisse (`staging.weather_raw`).
 
-4. Transformatsioonide käigus luuakse:
+4. SQL transformatsioonide käigus luuakse järgmised mart-kihi tabelid:
    * `mart.company_launches`
    * `mart.launches_by_location`
    * `mart.weather_risk`
+   * `mart.launches_by_location_company`
 
 5. Käivitatakse andmekvaliteedi testid.
 
-6. Tulemused kuvatakse Apache Superset dashboardil.
+6. Tulemused visualiseeritakse Apache Supersetis loodud dashboardil.
 
 
 ## Käivitamine
@@ -104,9 +104,9 @@ docker compose exec db psql -U praktikum -d kosmos -c "\dt mart.*"
 
 # 11. Loo visualiseerimine
 python scripts/create_chart.py
-
-Fail `output/top_companies.png` on näidisvisualiseering ning lõplik dashboard tehakse Apache Supersetis.
 ```
+Fail `output/top_companies.png` on näidisvisualiseering ning lõplik dashboard tehakse Apache Supersetis.
+
 
 ## Saladused ja konfiguratsioon
 
@@ -118,15 +118,16 @@ Päris .env fail on lisatud .gitignore faili ning ei jõua GitHubi.
 
 ## Andmekvaliteedi testid
 
-Staging
-launch_id ei tohi olla tühi (NOT NULL).
-launch_id peab olema unikaalne.
-provider_name ei tohi olla tühi.
-wind_speed_ms` ei tohi olla NULL.
-Mart
-company_launches.launch_count peab olema positiivne.
-launches_by_location.launch_count peab olema positiivne.
-weather_risk_score` peab jääma vahemikku 0–100.
+### Staging
+- `launch_id` ei tohi olla tühi (NOT NULL).
+- `launch_id` peab olema unikaalne.
+- `provider_name` ei tohi olla tühi.
+- `wind_speed_ms` ei tohi olla NULL.
+- 
+### Mart
+- `company_launches.launch_count` peab olema positiivne.
+- `launches_by_location.launch_count` peab olema positiivne.
+- `weather_risk_score` peab jääma vahemikku 0–100.
 
 ## Projekti struktuur
 
@@ -136,27 +137,52 @@ weather_risk_score` peab jääma vahemikku 0–100.
 ├── .env.example
 ├── .gitignore
 ├── compose.yml
+├── requirements.txt
 ├── docs/
 │ ├── arhitektuur.md
-│ └── progress.md
+│ ├── progress.md
+│ └── dashboard_sketch.jpeg
 ├── scripts/
 │ ├── load_launches.py
 │ ├── load_to_postgres.py
 │ ├── load_weather.py
-│ ├── transform_launches.py
+│ ├── create_chart.py
 │ ├── test_api.py
 │ ├── test_postgres.py
 │ ├── 01_transform.sql
 │ ├── 02_quality_tests.sql
 │ ├── 03_location_transform.sql
-│ └── create_chart.py
+│ ├── 04_weather_risk.sql
+│ └── 05_location_company_transform.sql
 ├── data/
 │ ├── raw/
 │ └── processed/
 └── output/
-├── requirements.txt
-
+    ├── top_companies.png
+    └── dashboard.png
 ```
+## Dashboardi esialgne kavand
+
+Enne Apache Superseti dashboardi loomist koostati käsitsi visand planeeritud visualiseerimisest.
+
+Kavandi eesmärk oli kokku leppida:
+- TOP 5 ettevõtete visualiseerimine;
+- TOP 5 stardiplatvormide visualiseerimine;
+- ilmastikuriski kuvamine;
+- dashboardi üldine ülesehitus.
+
+![Dashboardi kavand](docs/dashboard_sketch.jpeg)
+
+## Lõplik dashboard
+
+Apache Supersetis loodud dashboard võimaldab analüüsida:
+
+- TOP 5 ettevõtteid planeeritud startide arvu järgi;
+- TOP 5 stardiplatvorme;
+- kõige aktiivsema stardiplatvormi ilmastikunäitajaid;
+- ilmastikuriski taset.
+
+![Dashboard](output/dashboard.png)
 
 ## Kokkuvõte, puudused ja edasiarendused
 
@@ -184,8 +210,5 @@ weather_risk_score` peab jääma vahemikku 0–100.
 
 | Nimi         | Roll                               |
 | ------------ | ---------------------------------- |
-| Katrin Laur  | Andmevoog, PostgreSQL, transformatsioonid |
-| Helen Vellau | Dashboard, visualiseerimine, dokumentatsioon |
-
-```
-```
+| Katrin Laur | API integratsioonid, ETL protsess, PostgreSQL, SQL transformatsioonid, andmekvaliteedi testid, dokumentatsioon |
+| Helen Vellau | Dashboardi kavandamine, Apache Superset visualiseerimised, dashboardi koostamine ja dokumentatsiooni täiendamine |
