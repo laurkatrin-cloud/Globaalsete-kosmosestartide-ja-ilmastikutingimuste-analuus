@@ -1,19 +1,34 @@
 import json
-import pandas as pd
 import os
+import pandas as pd
 
 with open("data/raw/upcoming_launches.json", "r") as f:
     data = json.load(f)
 
 launches = data["results"]
 
-companies = []
+rows = []
 
 for launch in launches:
     provider = launch["launch_service_provider"]["name"]
-    companies.append(provider)
+    net = launch["net"]
 
-df = pd.DataFrame(companies, columns=["company"])
+    rows.append({
+        "company": provider,
+        "net": net
+    })
+
+df = pd.DataFrame(rows)
+
+df["net"] = pd.to_datetime(df["net"], utc=True)
+
+today = pd.Timestamp.now(tz="UTC")
+limit_date = today + pd.Timedelta(days=30)
+
+df = df[
+    (df["net"] >= today) &
+    (df["net"] <= limit_date)
+]
 
 result = (
     df.groupby("company")

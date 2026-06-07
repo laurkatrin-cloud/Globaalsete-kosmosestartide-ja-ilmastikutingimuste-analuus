@@ -33,6 +33,16 @@ for launch in data["results"]:
 
 df = pd.DataFrame(rows)
 
+df["net"] = pd.to_datetime(df["net"], utc=True)
+
+today = pd.Timestamp.now(tz="UTC")
+limit_date = today + pd.Timedelta(days=30)
+
+df = df[
+    (df["net"] >= today) &
+    (df["net"] <= limit_date)
+]
+
 with engine.begin() as conn:
     conn.execute(text("CREATE SCHEMA IF NOT EXISTS staging"))
 

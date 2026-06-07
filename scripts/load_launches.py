@@ -4,7 +4,10 @@ import os
 
 url = "https://lldev.thespacedevs.com/2.2.0/launch/upcoming/"
 
-response = requests.get(url)
+response = requests.get(
+    url,
+    params={"limit": 200}
+)
 
 data = response.json()
 
