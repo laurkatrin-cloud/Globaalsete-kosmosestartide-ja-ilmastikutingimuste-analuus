@@ -26,6 +26,9 @@ flowchart LR
     E --> F[Apache Superset]
 ```
 
+
+
+
 Täpsem kirjeldus: `docs/arhitektuur.md`
 
 ## Andmestik
